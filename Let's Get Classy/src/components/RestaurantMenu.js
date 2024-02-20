@@ -5,7 +5,16 @@ import { menuAPI } from "../utils/constants";
 const RestaurantMenu = () => {
   useEffect(() => {
     console.log("use effect");
+    const timer = setInterval(() => {
+      console.log("setInterval");
+    }, 1000);
     fetchMenu();
+
+    // /below function will be called on component unmouting
+    return () => {
+      clearInterval(timer);
+      console.log("unmounted ...");
+    };
   }, []);
   const { resId } = useParams();
   const [resInfo, setResInfo] = useState(null);
@@ -14,19 +23,19 @@ const RestaurantMenu = () => {
     const data = await fetch(menuAPI + resId);
 
     const json = await data.json();
-    // console.log(json.data);
+    console.log(json.data);
     setResInfo(json?.data);
   };
 
   if (resInfo === null) {
     return <Shimmer />;
   }
-
+  console.log(resInfo);
   const { name, cuisines, city, avgRating, costForTwoMessage } =
-    resInfo?.cards[0]?.card?.card?.info;
+    resInfo?.cards[2]?.card?.card?.info;
   // console.log(resInfo?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards);
   const temp =
-    resInfo?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards.filter(
+    resInfo?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards.filter(
       (card) => card?.card?.card?.itemCards !== undefined
     );
   // const { itemCards } = temp[0]?.groupedCard?.card?.card;

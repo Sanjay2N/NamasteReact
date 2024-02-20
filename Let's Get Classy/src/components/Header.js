@@ -5,14 +5,14 @@ let btnName = "Login";
 
 export const Header = () => {
   const [btnNameReact, changebtnName] = useState("Login"); //new instance will be created on change
-  console.log("header called");
+  // console.log("header called");
 
   //if second arg not given useEffect will be called on every render of component
   //if sencond arg in [] useEffect will be called on first render(just once)
   //if dependencies given ,useEffect will called on change in dependencies
-  useEffect(() => {
-    console.log("Header ..............");
-  }, [btnNameReact]);
+  // useEffect(() => {
+  //   console.log("Header ..............");
+  // }, [btnNameReact]);
 
   return (
     <div className="header">
