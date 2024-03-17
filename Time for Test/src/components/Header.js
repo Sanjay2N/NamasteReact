@@ -3,12 +3,16 @@ import { LOGO_URL } from "../utils/constants";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../utils/useOnlineStatus";
 import UserContext from "../utils/UserContext";
+import { useSelector } from "react-redux";
 
 export const Header = () => {
   const [btnNameReact, changebtnName] = useState("Login"); //new instance will be created on change
 
   const onlineStatus = useOnlineStatus();
   const { loggedInUser } = useContext(UserContext);
+
+  //subscribing to store using selector
+  const cartItems = useSelector((store) => store.cart.items);
   return (
     <div className="flex justify-between shadow-md bg-blue-300 sm:bg-red-200">
       <div className="logo-container">
@@ -30,9 +34,11 @@ export const Header = () => {
             <Link to="/about">About</Link>
           </li>
           <li className="px-1">
-            <a href="/contacts">Contact Us</a>
+            <Link to="/contacts">Contact Us</Link>
           </li>
-          <li className="px-1">Cart</li>
+          <li className="px-1">
+            <Link to="/cart">Cart {cartItems.length}</Link>
+          </li>
           <button
             className="px-1"
             onClick={() => {

@@ -1,16 +1,15 @@
 import React, { lazy, Suspense, useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
-
 import { Header } from "./components/Header";
 import Body from "./components/Body";
-// import About from "./components/About";
 import Contacts from "./components/contacts";
 import ErrorComponent from "./components/ErrorComponent";
-
 import RestaurantMenu from "./components/RestaurantMenu";
-// import Grocery from "./components/Grocerry";
 import UserContext from "./utils/UserContext";
+import { Provider } from "react-redux";
+import appStore from "./utils/AppStore";
+import Cart from "./components/Cart";
 
 const AppLayout = () => {
   const [userName, setUserName] = useState();
@@ -21,15 +20,26 @@ const AppLayout = () => {
     setUserName(data.name);
   }, []);
   return (
-    //adding new context to app
-    <UserContext.Provider value={{ loggedInUser: userName, setUserName }}>
-      <div className="app">
-        <UserContext.Provider value={{ loggedInUser: "dora" }}>
+    <Provider store={appStore}>
+      <UserContext.Provider value={{ loggedInUser: userName, setUserName }}>
+        <div className="app">
           <Header />
-        </UserContext.Provider>
-        <Outlet />
-      </div>
-    </UserContext.Provider>
+          <Outlet />
+        </div>
+      </UserContext.Provider>
+    </Provider>
+
+    //adding new context to app
+    // <Provider store={appStore}>
+    //   {/* <UserContext.Provider value={{ loggedInUser: userName, setUserName }}> */}
+    //   <div className="app">
+    //     {/* <UserContext.Provider value={{ loggedInUser: "dora" }}> */}
+    //     <Header />
+    //     {/* </UserContext.Provider> */}
+    //     <Outlet />
+    //   </div>
+    //   {/* </UserContext.Provider> */}
+    // </Provider>
   );
 };
 //lazy loading
@@ -69,6 +79,10 @@ const appRouter = createBrowserRouter([
       {
         path: "/restaurant/:resId",
         element: <RestaurantMenu />,
+      },
+      {
+        path: "/cart",
+        element: <Cart />,
       },
     ],
     errorElement: <ErrorComponent />,
